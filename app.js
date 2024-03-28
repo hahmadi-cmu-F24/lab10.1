@@ -3,11 +3,30 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const multer=require("multer");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+
+app.post('/add', multer().none(), (request, response)=>{
+  database.collection ("customers").count({}, function (error, numOfDocs) {
+    database.collection("customers").insertOne({
+      name: request.body1.newNotes,
+      address: request.body2.newNotes,
+      orders: request.body3.newNotes
+    });
+    response.json("Added Succesfully");
+  })
+})
+app.delete('/delete', (request, response)=>
+{ database.collection ("customers") .deleteOne({
+  id:request.query.id
+});
+  response.json("Deleted Successfully");
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
